@@ -1,0 +1,29 @@
+---
+# Update all hosts in office
+- name: Update all hosts in office
+  hosts: office
+  vars_files:
+    - ~/ansible/vars/misc.yml
+  vars:
+    message: "Debug message is {{ debug_message }}"
+  tasks:
+    - name: Update cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Update all packages to the latest version
+      apt:
+        upgrade: full
+
+    - name: Autoremove
+      apt:
+        autoremote: yes
+
+    - name: Autoclean
+      apt:
+        autoclean: yes
+
+    - name: Print debug message
+      debug:
+        msg: "{{ message }} found"
